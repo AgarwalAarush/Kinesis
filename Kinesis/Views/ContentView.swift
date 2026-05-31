@@ -2,13 +2,14 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject private var store: KinesisStore
+    @SceneStorage("selectedSection") private var selectedSectionRaw = AppSection.overview.rawValue
 
     var body: some View {
         NavigationSplitView {
-            SidebarView()
+            SidebarView(selection: selectedSectionBinding)
                 .environmentObject(store)
         } detail: {
-            DetailView()
+            DetailView(section: selectedSection)
                 .environmentObject(store)
         }
         .toolbar {
@@ -18,15 +19,27 @@ struct ContentView: View {
                 } label: {
                     Label(store.trackingEnabled ? "Stop" : "Start", systemImage: store.trackingEnabled ? "stop.fill" : "play.fill")
                 }
+                .disabled(store.emergencyPaused)
 
                 Button {
-                    store.emergencyPause()
+                    store.toggleEmergencyPause()
                 } label: {
-                    Label("Emergency Pause", systemImage: "hand.raised.fill")
+                    Label(store.emergencyPaused ? "Resume Input" : "Emergency Pause", systemImage: store.emergencyPaused ? "play.fill" : "hand.raised.fill")
                 }
                 .keyboardShortcut(.escape, modifiers: [.command])
-                .disabled(store.emergencyPaused)
+                .tint(store.emergencyPaused ? .blue : .orange)
             }
         }
+    }
+
+    private var selectedSection: AppSection {
+        AppSection(rawValue: selectedSectionRaw) ?? .overview
+    }
+
+    private var selectedSectionBinding: Binding<AppSection> {
+        Binding(
+            get: { selectedSection },
+            set: { selectedSectionRaw = $0.rawValue }
+        )
     }
 }

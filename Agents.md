@@ -60,3 +60,14 @@ developer preferences become clearer.
 - The deployment target is macOS 15.0 for local v0 development. Do not let the generated Info.plist drift back to a future-only minimum system version, or LaunchServices may refuse to open the app.
 - Debug/local runs disable the app sandbox in the Xcode target so CGEvent cursor output, Accessibility checks, and Input Monitoring flows can be exercised realistically.
 - Avoid SwiftUI `#Preview` macros in committed app source until CLI builds are known to handle the local sandbox reliably.
+- UI modernization pass: the app uses a `NavigationSplitView` with Overview, Tuning, Permissions, and Diagnostics sections. Shared glass/material styling lives in `Kinesis/Support/KinesisDesign.swift`; keep future visual polish centralized there.
+- `ControlSettings` defaults to Dry Run so new sessions can rehearse gestures without emitting CGEvents. Live output is blocked unless Accessibility and Input Monitoring are both trusted.
+- Start Tracking has a two-second arming period. During arming the helper can stream visible gesture intents, but the bridge releases output and refuses cursor/click/scroll events.
+- A stale-input watchdog releases held output if the helper stops sending fresh hand data while tracking is active. Emergency pause clears arming and releases output immediately; if the helper is running it is stopped too.
+- The router treats `pinch_hold` as both a drag/click state and a cursor-moving gesture so drag motion continues while pinched. If click/drag is disabled or Dry Run is enabled while a mouse button is held, the router releases the held button before ignoring further output.
+- The helper supervisor collects stderr for termination diagnostics and guards process termination callbacks by generation so an old helper cannot clean up a newer launch.
+- Current local verification commands:
+  - `/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test -project Kinesis.xcodeproj -scheme Kinesis -configuration Debug -destination platform=macOS -derivedDataPath .build/DerivedData CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO`
+  - `.venv/bin/python -m pytest cv_helper/tests`
+  - `./script/build_and_run.sh --verify`
+- Screen capture verification may fail in sandboxed Codex runs without macOS screen-recording access; rely on local visual inspection after `--verify` in that environment.

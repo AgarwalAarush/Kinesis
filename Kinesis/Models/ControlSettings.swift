@@ -9,6 +9,9 @@ struct ControlSettings: Codable, Equatable {
     var scrollSensitivity: Double
     var pinchThreshold: Double
     var confidenceThreshold: Double
+    var dryRunEnabled: Bool
+    var cursorDeadZone: Double
+    var scrollDeadZone: Double
 
     static let defaults = ControlSettings(
         cursorEnabled: true,
@@ -18,6 +21,9 @@ struct ControlSettings: Codable, Equatable {
         smoothing: 0.35,
         scrollSensitivity: 1.0,
         pinchThreshold: 0.30,
-        confidenceThreshold: 0.62
+        confidenceThreshold: 0.62,
+        dryRunEnabled: true,
+        cursorDeadZone: 0.12,
+        scrollDeadZone: 0.35
     )
 }

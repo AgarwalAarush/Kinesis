@@ -69,9 +69,11 @@ final class GestureRouterTests: XCTestCase {
 
     func testAppliesEnabledCursorGesture() {
         let bridge = FakeBridge()
+        var settings = ControlSettings.defaults
+        settings.dryRunEnabled = false
         let decision = GestureRouter().route(
             intent: .sample(gesture: .indexMove),
-            settings: .defaults,
+            settings: settings,
             trackingEnabled: true,
             emergencyPaused: false,
             output: bridge
@@ -97,6 +99,61 @@ final class GestureRouterTests: XCTestCase {
 
         XCTAssertEqual(decision.action, .ignored)
         XCTAssertEqual(bridge.applyCount, 0)
+    }
+
+    func testDisabledClickDragReleasesHeldMouse() {
+        let bridge = FakeBridge()
+        bridge.mouseDown = true
+        var settings = ControlSettings.defaults
+        settings.clickDragEnabled = false
+
+        let decision = GestureRouter().route(
+            intent: .sample(gesture: .pinchHold, click: .down),
+            settings: settings,
+            trackingEnabled: true,
+            emergencyPaused: false,
+            output: bridge
+        )
+
+        XCTAssertEqual(decision.action, .released)
+        XCTAssertEqual(bridge.releaseCount, 1)
+        XCTAssertFalse(bridge.isMouseDown)
+    }
+
+    func testPinchHoldRoutesAsMovementGesture() {
+        let bridge = FakeBridge()
+        var settings = ControlSettings.defaults
+        settings.dryRunEnabled = false
+
+        let decision = GestureRouter().route(
+            intent: .sample(gesture: .pinchHold, click: .none),
+            settings: settings,
+            trackingEnabled: true,
+            emergencyPaused: false,
+            output: bridge
+        )
+
+        XCTAssertEqual(decision.action, .applied)
+        XCTAssertEqual(bridge.applyCount, 1)
+    }
+
+    func testDryRunRecognizesWithoutApplyingOutput() {
+        let bridge = FakeBridge()
+        var settings = ControlSettings.defaults
+        settings.dryRunEnabled = true
+
+        let decision = GestureRouter().route(
+            intent: .sample(gesture: .indexMove),
+            settings: settings,
+            trackingEnabled: true,
+            emergencyPaused: false,
+            output: bridge
+        )
+
+        XCTAssertEqual(decision.action, .ignored)
+        XCTAssertTrue(decision.reason.contains("Dry Run"))
+        XCTAssertEqual(bridge.applyCount, 0)
+        XCTAssertEqual(bridge.releaseCount, 0)
     }
 }
 

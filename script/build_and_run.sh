@@ -26,9 +26,9 @@ test_app() {
 
 run_python_tests() {
   if [[ -x "$ROOT_DIR/.venv/bin/python" ]]; then
-    "$ROOT_DIR/.venv/bin/python" -m pytest "$ROOT_DIR/cv_helper/tests"
+    (cd "$ROOT_DIR" && "$ROOT_DIR/.venv/bin/python" -m pytest cv_helper/tests)
   else
-    python3 -m pytest "$ROOT_DIR/cv_helper/tests"
+    (cd "$ROOT_DIR" && python3 -m pytest cv_helper/tests)
   fi
 }
 

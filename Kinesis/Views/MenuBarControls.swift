@@ -8,11 +8,14 @@ struct MenuBarControls: View {
         Button(store.trackingEnabled ? "Stop Tracking" : "Start Tracking") {
             store.toggleTracking()
         }
+        .disabled(store.emergencyPaused)
 
         Button(store.emergencyPaused ? "Resume Input" : "Emergency Pause") {
             store.toggleEmergencyPause()
         }
         .keyboardShortcut(.escape, modifiers: [.command])
+
+        Toggle("Dry Run Mode", isOn: $store.settings.dryRunEnabled)
 
         Divider()
 

@@ -14,7 +14,7 @@ final class MacControlBridge: MacControlProviding {
     func apply(intent: GestureIntent, settings: ControlSettings) {
         let current = currentMouseLocation()
 
-        if settings.cursorEnabled, intent.gesture == .indexMove {
+        if settings.cursorEnabled, (intent.gesture == .indexMove || intent.gesture == .pinchHold) {
             moveCursor(from: current, delta: intent.cursorDelta, settings: settings)
         }
 
@@ -38,6 +38,8 @@ final class MacControlBridge: MacControlProviding {
     }
 
     private func moveCursor(from current: CGPoint, delta: GestureVector, settings: ControlSettings) {
+        guard abs(delta.dx) >= settings.cursorDeadZone || abs(delta.dy) >= settings.cursorDeadZone else { return }
+
         let bounds = CGDisplayBounds(CGMainDisplayID())
         let next = CGPoint(
             x: min(max(current.x + delta.dx * settings.trackingSpeed, bounds.minX), bounds.maxX),
@@ -48,6 +50,8 @@ final class MacControlBridge: MacControlProviding {
     }
 
     private func postScroll(delta: GestureVector, settings: ControlSettings) {
+        guard abs(delta.dx) >= settings.scrollDeadZone || abs(delta.dy) >= settings.scrollDeadZone else { return }
+
         let vertical = Int32(delta.dy * 8.0 * settings.scrollSensitivity)
         let horizontal = Int32(delta.dx * 8.0 * settings.scrollSensitivity)
         guard vertical != 0 || horizontal != 0 else { return }

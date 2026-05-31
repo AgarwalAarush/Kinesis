@@ -2,42 +2,26 @@ import SwiftUI
 
 struct SidebarView: View {
     @EnvironmentObject private var store: KinesisStore
+    @Binding var selection: AppSection
 
     var body: some View {
-        List {
-            Section("Session") {
-                StatusRow(title: "Tracking", value: store.trackingEnabled ? "On" : "Off", systemImage: store.trackingEnabled ? "cursorarrow.motionlines" : "pause.fill")
-                StatusRow(title: "Helper", value: store.helperStatus.title, systemImage: helperIcon)
-                StatusRow(title: "Safety", value: store.emergencyPaused ? "Paused" : "Ready", systemImage: store.emergencyPaused ? "hand.raised.fill" : "checkmark.shield.fill")
+        List(selection: $selection) {
+            Section("Air Mouse") {
+                ForEach(AppSection.allCases) { section in
+                    Label(section.title, systemImage: section.systemImage)
+                        .tag(section)
+                }
             }
 
-            Section("Permissions") {
-                StatusRow(title: "Accessibility", value: store.permissions.accessibilityTrusted ? "Granted" : "Needed", systemImage: store.permissions.accessibilityTrusted ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
-                StatusRow(title: "Input Monitoring", value: store.permissions.inputMonitoringTrusted ? "Granted" : "Needed", systemImage: store.permissions.inputMonitoringTrusted ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
+            Section("Status") {
+                StatusRow(title: "Tracking", value: store.trackingEnabled ? "On" : "Off", systemImage: store.trackingEnabled ? "cursorarrow.motionlines" : "pause.fill")
+                StatusRow(title: "Mode", value: store.settings.dryRunEnabled ? "Dry Run" : "Live", systemImage: store.settings.dryRunEnabled ? "eye.fill" : "bolt.fill")
+                StatusRow(title: "Helper", value: store.helperStatus.title, systemImage: helperIcon)
+                StatusRow(title: "Safety", value: store.emergencyPaused ? "Paused" : "Ready", systemImage: store.emergencyPaused ? "hand.raised.fill" : "checkmark.shield.fill")
             }
         }
         .listStyle(.sidebar)
         .navigationTitle("Kinesis")
-        .safeAreaInset(edge: .bottom) {
-            VStack(spacing: 8) {
-                Button {
-                    store.toggleTracking()
-                } label: {
-                    Label(store.trackingEnabled ? "Stop Tracking" : "Start Tracking", systemImage: store.trackingEnabled ? "stop.fill" : "play.fill")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent)
-
-                Button {
-                    store.toggleEmergencyPause()
-                } label: {
-                    Label(store.emergencyPaused ? "Resume Input" : "Emergency Pause", systemImage: "hand.raised.fill")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.bordered)
-            }
-            .padding()
-        }
     }
 
     private var helperIcon: String {
@@ -70,5 +54,6 @@ private struct StatusRow: View {
         } icon: {
             Image(systemName: systemImage)
         }
+        .tag(Optional<AppSection>.none)
     }
 }

@@ -29,6 +29,7 @@ final class GestureIntentTests: XCTestCase {
         XCTAssertTrue(settings.cursorEnabled)
         XCTAssertTrue(settings.clickDragEnabled)
         XCTAssertTrue(settings.scrollEnabled)
+        XCTAssertTrue(settings.dryRunEnabled)
         XCTAssertGreaterThan(settings.confidenceThreshold, 0.5)
     }
 }

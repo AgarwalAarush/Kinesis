@@ -9,6 +9,8 @@ final class CVHelperProcess {
     private var outputPipe: Pipe?
     private var errorPipe: Pipe?
     private var pendingOutput = ""
+    private var pendingError = ""
+    private var generation = 0
     private let decoder = JSONDecoder()
 
     var isRunning: Bool {
@@ -27,6 +29,8 @@ final class CVHelperProcess {
 
         let python = pythonExecutable(projectRoot: root)
         let process = Process()
+        generation += 1
+        let launchGeneration = generation
         let outputPipe = Pipe()
         let errorPipe = Pipe()
         process.executableURL = python
@@ -42,19 +46,26 @@ final class CVHelperProcess {
         outputPipe.fileHandleForReading.readabilityHandler = { [weak self] handle in
             let data = handle.availableData
             guard !data.isEmpty, let text = String(data: data, encoding: .utf8) else { return }
-            Task { @MainActor in self?.consumeOutput(text) }
+            Task { @MainActor [weak self] in self?.consumeOutput(text) }
         }
 
         errorPipe.fileHandleForReading.readabilityHandler = { [weak self] handle in
             let data = handle.availableData
             guard !data.isEmpty, let text = String(data: data, encoding: .utf8) else { return }
-            Task { @MainActor in self?.onStatusChange?(.failed(text.trimmingCharacters(in: .whitespacesAndNewlines))) }
+            Task { @MainActor [weak self] in self?.pendingError += text }
         }
 
-        process.terminationHandler = { [weak self] _ in
-            Task { @MainActor in
-                self?.cleanup()
-                self?.onStatusChange?(.stopped)
+        process.terminationHandler = { [weak self, weak process] terminatedProcess in
+            Task { @MainActor [weak self, weak process] in
+                guard let self, self.generation == launchGeneration, self.process === process else { return }
+                let message = self.pendingError.trimmingCharacters(in: .whitespacesAndNewlines)
+                let status = terminatedProcess.terminationStatus
+                self.cleanup()
+                if status == 0 || status == 15 {
+                    self.onStatusChange?(.stopped)
+                } else {
+                    self.onStatusChange?(.failed(message.isEmpty ? "Helper exited with status \(status)." : message))
+                }
             }
         }
 
@@ -72,6 +83,7 @@ final class CVHelperProcess {
     }
 
     func stop() {
+        generation += 1
         outputPipe?.fileHandleForReading.readabilityHandler = nil
         errorPipe?.fileHandleForReading.readabilityHandler = nil
         process?.terminate()
@@ -103,6 +115,7 @@ final class CVHelperProcess {
         outputPipe = nil
         errorPipe = nil
         pendingOutput = ""
+        pendingError = ""
     }
 
     private func pythonExecutable(projectRoot: URL) -> URL {
