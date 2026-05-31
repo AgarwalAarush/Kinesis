@@ -8,6 +8,7 @@
 
 /* Begin PBXFileReference section */
 		9BA055202FCC1073009A3EC0 /* Kinesis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kinesis.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9BA056012FCC2000009A3EC0 /* KinesisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KinesisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -16,10 +17,22 @@
 			path = Kinesis;
 			sourceTree = "<group>";
 		};
+		9BA056022FCC2000009A3EC0 /* KinesisTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = KinesisTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		9BA0551D2FCC1073009A3EC0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9BA056032FCC2000009A3EC0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +46,7 @@
 			isa = PBXGroup;
 			children = (
 				9BA055222FCC1073009A3EC0 /* Kinesis */,
+				9BA056022FCC2000009A3EC0 /* KinesisTests */,
 				9BA055212FCC1073009A3EC0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,11 +55,22 @@
 			isa = PBXGroup;
 			children = (
 				9BA055202FCC1073009A3EC0 /* Kinesis.app */,
+				9BA056012FCC2000009A3EC0 /* KinesisTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
+
+/* Begin PBXContainerItemProxy section */
+		9BA056042FCC2000009A3EC0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BA055182FCC1073009A3EC0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9BA0551F2FCC1073009A3EC0;
+			remoteInfo = Kinesis;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXNativeTarget section */
 		9BA0551F2FCC1073009A3EC0 /* Kinesis */ = {
@@ -70,6 +95,29 @@
 			productReference = 9BA055202FCC1073009A3EC0 /* Kinesis.app */;
 			productType = "com.apple.product-type.application";
 		};
+		9BA056052FCC2000009A3EC0 /* KinesisTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9BA0560A2FCC2000009A3EC0 /* Build configuration list for PBXNativeTarget "KinesisTests" */;
+			buildPhases = (
+				9BA056062FCC2000009A3EC0 /* Sources */,
+				9BA056032FCC2000009A3EC0 /* Frameworks */,
+				9BA056072FCC2000009A3EC0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9BA056082FCC2000009A3EC0 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				9BA056022FCC2000009A3EC0 /* KinesisTests */,
+			);
+			name = KinesisTests;
+			packageProductDependencies = (
+			);
+			productName = KinesisTests;
+			productReference = 9BA056012FCC2000009A3EC0 /* KinesisTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -82,6 +130,10 @@
 				TargetAttributes = {
 					9BA0551F2FCC1073009A3EC0 = {
 						CreatedOnToolsVersion = 26.5;
+					};
+					9BA056052FCC2000009A3EC0 = {
+						CreatedOnToolsVersion = 26.5;
+						TestTargetID = 9BA0551F2FCC1073009A3EC0;
 					};
 				};
 			};
@@ -100,12 +152,20 @@
 			projectRoot = "";
 			targets = (
 				9BA0551F2FCC1073009A3EC0 /* Kinesis */,
+				9BA056052FCC2000009A3EC0 /* KinesisTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9BA0551E2FCC1073009A3EC0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9BA056072FCC2000009A3EC0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +182,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9BA056062FCC2000009A3EC0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9BA056082FCC2000009A3EC0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9BA0551F2FCC1073009A3EC0 /* Kinesis */;
+			targetProxy = 9BA056042FCC2000009A3EC0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		9BA055292FCC1074009A3EC0 /* Debug */ = {
@@ -179,7 +254,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.4;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -237,7 +312,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.4;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -254,7 +329,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8H757N372W;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
@@ -265,6 +340,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = agarwalaarush.Kinesis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -297,6 +373,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = agarwalaarush.Kinesis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -306,6 +383,52 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		9BA0560B2FCC2000009A3EC0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8H757N372W;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = agarwalaarush.KinesisTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kinesis.app/Contents/MacOS/Kinesis";
+			};
+			name = Debug;
+		};
+		9BA0560C2FCC2000009A3EC0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8H757N372W;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = agarwalaarush.KinesisTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kinesis.app/Contents/MacOS/Kinesis";
 			};
 			name = Release;
 		};
@@ -326,6 +449,15 @@
 			buildConfigurations = (
 				9BA0552C2FCC1074009A3EC0 /* Debug */,
 				9BA0552D2FCC1074009A3EC0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9BA0560A2FCC2000009A3EC0 /* Build configuration list for PBXNativeTarget "KinesisTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9BA0560B2FCC2000009A3EC0 /* Debug */,
+				9BA0560C2FCC2000009A3EC0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
