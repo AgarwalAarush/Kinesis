@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and test Swift app
+        run: |
+          xcodebuild \
+            -project Kinesis.xcodeproj \
+            -scheme Kinesis \
+            -configuration Debug \
+            -destination 'platform=macOS' \
+            -derivedDataPath .build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            test
+
+      - name: Test Python gesture helper
+        run: |
+          python3 -m pip install pytest
+          python3 -m pytest cv_helper/tests
